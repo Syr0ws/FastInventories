@@ -4,6 +4,5 @@
   <a href=""><img src="https://github.com/Syr0ws/FastInventories/blob/master/logos/discord.png"/></a>
   <a href="https://twitter.com/Syr0ws"><img src="https://github.com/Syr0ws/FastInventories/blob/master/logos/twitter.png"/></a>
   <a href=""><img src="https://github.com/Syr0ws/FastInventories/blob/master/logos/documentation.png"/></a>
-  <p> </p>
   <img src="https://github.com/Syr0ws/FastInventories/blob/master/logos/body.png"/>
 </div>
