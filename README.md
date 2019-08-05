@@ -1,4 +1,4 @@
-<div align="center">
+<div align="center" style="line-height:2px;">
   <img src="https://github.com/Syr0ws/FastInventories/blob/master/logos/head.png"/>
   <p> </p>
   <a href="https://github.com/Syr0ws/FastInventories"><img src="https://github.com/Syr0ws/FastInventories/blob/master/logos/github.png"/></a>
