@@ -69,7 +69,7 @@ public class InventoryManager {
 
         for(int i = 0; i < handle.getSize(); i++) {
 
-            ClickableItem clickable = inv.getContents().get(i);
+            ClickableItem clickable = inv.getInventoryContents().get(i);
             ItemStack stack = handle.getItem(i);
 
             if(clickable == null) {
@@ -153,10 +153,10 @@ public class InventoryManager {
                 if(!inv.isSlotInteractive(slot)) event.setCancelled(true);
 
                 inv.getListeners().stream()
-                        .filter(listener -> listener.getType() == InventoryClickEvent.class)
-                        .forEach(listener -> listener.accept(event));
+                        .filter(listener -> listener.getType() == InventoryDragEvent.class)
+                        .forEach(listener -> ((InventoryListener<InventoryClickEvent>)listener).accept(event));
 
-                ClickableItem clickable = inv.getContents().get(slot);
+                ClickableItem clickable = inv.getInventoryContents().get(slot);
 
                 if(clickable == null) return;
 
@@ -205,7 +205,7 @@ public class InventoryManager {
 
             inv.getListeners().stream()
                     .filter(listener -> listener.getType() == InventoryDragEvent.class)
-                    .forEach(listener -> listener.accept(event));
+                    .forEach(listener -> ((InventoryListener<InventoryDragEvent>)listener).accept(event));
 
             event.setCancelled(true);
         }
@@ -221,7 +221,7 @@ public class InventoryManager {
 
             inv.getListeners().stream()
                     .filter(listener -> listener.getType() == InventoryOpenEvent.class)
-                    .forEach(listener -> listener.accept(event));
+                    .forEach(listener -> ((InventoryListener<InventoryOpenEvent>)listener).accept(event));
         }
 
         @EventHandler
@@ -234,8 +234,8 @@ public class InventoryManager {
             FastInventory inv = getOpenedInventory(player);
 
             inv.getListeners().stream()
-                    .filter(listener -> listener.getType() == InventoryCloseEvent.class)
-                    .forEach(listener -> listener.accept(event));
+                    .filter(listener -> listener.getType() == InventoryOpenEvent.class)
+                    .forEach(listener -> ((InventoryListener<InventoryCloseEvent>)listener).accept(event));
 
             setInventory(player, null);
 
@@ -248,14 +248,32 @@ public class InventoryManager {
 
             Player player = event.getPlayer();
 
-            if(hasOpenedInventory(player)) close(player);
+            if(!hasOpenedInventory(player)) return;
+
+            FastInventory inv = getOpenedInventory(player);
+
+            inv.getListeners().stream()
+                    .filter(listener -> listener.getType() == PlayerQuitEvent.class)
+                    .forEach(listener -> ((InventoryListener<PlayerQuitEvent>)listener).accept(event));
+
+            inv.close(player);
         }
 
         @EventHandler
         public void onPluginDisable(PluginDisableEvent event) {
 
-            if(event.getPlugin() == FastInvsAPI.getPlugin())
-                getPlayersWithAnOpenedInventory().forEach(InventoryManager.this::close);
+            if(event.getPlugin() != FastInvsAPI.getPlugin()) return;
+
+            getPlayersWithAnOpenedInventory().forEach(player -> {
+
+                FastInventory inv = getOpenedInventory(player);
+
+                inv.getListeners().stream()
+                        .filter(listener -> listener.getType() == PlayerQuitEvent.class)
+                        .forEach(listener -> ((InventoryListener<PluginDisableEvent>)listener).accept(event));
+
+                inv.close(player);
+            });
         }
     }
 }

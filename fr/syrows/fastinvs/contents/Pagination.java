@@ -4,7 +4,6 @@ import com.google.gson.*;
 import fr.syrows.fastinvs.FastInventory;
 import fr.syrows.fastinvs.FastInvsAPI;
 import fr.syrows.fastinvs.inventories.InventoryContents;
-import fr.syrows.fastinvs.inventories.InventoryManager;
 import fr.syrows.fastinvs.loader.LoadedItem;
 import fr.syrows.fastinvs.tools.SlotIterator;
 import org.bukkit.inventory.ItemStack;
@@ -23,7 +22,7 @@ public class Pagination {
 
     public void setPageContents(FastInventory inv) {
 
-        InventoryContents contents = inv.getContents();
+        InventoryContents contents = inv.getInventoryContents();
 
         this.iterator.reset();
 
@@ -49,7 +48,7 @@ public class Pagination {
 
     public void setPages(FastInventory inv) {
 
-        InventoryContents contents = inv.getContents();
+        InventoryContents contents = inv.getInventoryContents();
 
         contents.set(this.previousPageSlot, this.previousPage);
         contents.set(this.nextPageSlot, this.nextPage);
@@ -57,7 +56,7 @@ public class Pagination {
 
     public void clearPage(FastInventory inv) {
 
-        InventoryContents contents = inv.getContents();
+        InventoryContents contents = inv.getInventoryContents();
 
         this.iterator.reset();
 

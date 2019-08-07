@@ -22,7 +22,7 @@ public interface InventoryOpener {
             pagination.setPageContents(inv);
             pagination.setPages(inv);
         }
-        InventoryContents contents = inv.getContents();
+        InventoryContents contents = inv.getInventoryContents();
 
         contents.fill(handle);
     }

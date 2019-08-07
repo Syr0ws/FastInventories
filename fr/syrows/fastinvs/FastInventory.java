@@ -43,20 +43,20 @@ public class FastInventory {
 
     public boolean hasPagination() { return this.pagination != null; }
 
-    public InventoryContents getContents() { return contents; }
+    public InventoryContents getInventoryContents() { return contents; }
 
     public List<InventoryListener> getListeners() { return listeners; }
 
     public List<Integer> getInteractiveSlots() { return interactiveSlots; }
 
-    public void setInteractiveSlot(int... slots) {
+    public void setInteractiveSlots(int... slots) {
 
         Arrays.stream(slots)
                 .filter(slot -> slot >= 0 && slot < getSize())
                 .forEach(slot -> this.interactiveSlots.add(slot));
     }
 
-    public void removeInteractiveSlot(int... slots) {
+    public void removeInteractiveSlots(int... slots) {
 
         Arrays.stream(slots)
                 .filter(slot -> this.interactiveSlots.contains(slot))
@@ -159,11 +159,7 @@ public class FastInventory {
         }
 
         public InventoryBuilder withListeners(InventoryListener... listeners) {
-
-            Arrays.stream(listeners)
-                    .filter(listener -> InventoryListener.SUPPORTED_TYPES.contains(listener.getType()))
-                    .forEach(listener -> this.listeners.add(listener));
-
+            this.listeners.addAll(Arrays.asList(listeners));
             return this;
         }
 
