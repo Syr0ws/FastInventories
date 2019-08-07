@@ -1,37 +1,38 @@
 package fr.syrows.fastinvs.inventories;
 
-import org.bukkit.event.Event;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.server.PluginDisableEvent;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class InventoryListener {
+public class InventoryListener<T> {
 
-    public static final List<Class> SUPPORTED_TYPES = Arrays.asList(InventoryClickEvent.class,
-            InventoryOpenEvent.class, InventoryCloseEvent.class, InventoryDragEvent.class);
+    private static List<Class> SUPPORTED_LISTENERS = Arrays.asList(InventoryClickEvent.class,
+            InventoryDragEvent.class, InventoryOpenEvent.class, InventoryCloseEvent.class, PlayerQuitEvent.class, PluginDisableEvent.class);
 
-    private Class type;
-    private Consumer<Event> consumer;
+    private Class<T> type;
+    private Consumer<T> consumer;
 
-    public InventoryListener(Class type, Consumer<Event> consumer) {
+    public InventoryListener(Class<T> type, Consumer<T> consumer) {
+
+        if(!SUPPORTED_LISTENERS.contains(type))
+            throw new IllegalArgumentException(String.format("Listener %s is not supported.", type.getName()));
+
         this.type = type;
         this.consumer = consumer;
     }
 
-    public Class getType() {
+    public Class<T> getType() {
         return type;
     }
 
-    public Consumer<Event> getConsumer() {
-        return consumer;
-    }
-
-    public void accept(Event event) {
+    public void accept(T event) {
         consumer.accept(event);
     }
 }

@@ -116,7 +116,7 @@ public class InventoryLoader {
 
     private void setContents(LoadedInventory loadedInv, FastInventory inv) {
 
-        InventoryContents contents = inv.getContents();
+        InventoryContents contents = inv.getInventoryContents();
 
         loadedInv.getContents().forEach((itemId, loadedItem) -> {
 

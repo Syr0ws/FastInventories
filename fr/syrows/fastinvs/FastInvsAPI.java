@@ -3,7 +3,6 @@ package fr.syrows.fastinvs;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import fr.syrows.fastinvs.contents.Pagination;
-import fr.syrows.fastinvs.inventories.SupportedInventories;
 import fr.syrows.fastinvs.loader.LoadedInventory;
 import fr.syrows.fastinvs.loader.LoadedItem;
 import fr.syrows.fastinvs.utils.Logger;
